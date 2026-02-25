@@ -1,142 +1,165 @@
 import { useState } from "react";
 
 function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Thanks! Our team will contact you shortly 💗");
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      message: "",
-    });
-  };
-
   return (
     <div style={styles.page}>
-      <div style={styles.card}>
-        <h2 style={styles.title}>Contact Us</h2>
-        <p style={styles.subtitle}>
-          Need help with orders, returns, or products? We’re just a message away.
-        </p>
+      {/* Hero Section */}
+      <div style={styles.hero}>
+        <div style={styles.overlay}>
+          <h1 style={styles.heroTitle}>Contact Us</h1>
+          <p style={styles.heroText}>
+            Need help with your orders, payments, or delivery?  
+            Our e-commerce support team is always ready to assist you.
+          </p>
+        </div>
+      </div>
 
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Full Name"
-            value={formData.name}
-            onChange={handleChange}
-            style={styles.input}
-            required
-          />
+      {/* Content Section */}
+      <div style={styles.content}>
+        {/* Form */}
+        <div style={styles.formBox}>
+          <h2>We’re happy to help!</h2>
+          <p style={styles.text}>
+            Have questions about products, returns, or shipping?  
+            Send us a message and we’ll respond shortly.
+          </p>
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            value={formData.email}
-            onChange={handleChange}
-            style={styles.input}
-            required
-          />
-
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Mobile Number"
-            value={formData.phone}
-            onChange={handleChange}
-            style={styles.input}
-          />
-
+          <input style={styles.input} type="text" placeholder="Your Name" />
+          <input style={styles.input} type="email" placeholder="Your Email" />
           <textarea
-            name="message"
-            placeholder="Write your message here..."
-            value={formData.message}
-            onChange={handleChange}
             style={styles.textarea}
-            required
-          />
+            placeholder="Your Message"
+          ></textarea>
 
-          <button type="submit" style={styles.button}>
-            SUBMIT
-          </button>
-        </form>
+          <button style={styles.button}>Submit</button>
+        </div>
+
+        {/* Info */}
+        <div style={styles.infoBox}>
+          <h3>FAQs</h3>
+          <p style={styles.text}>
+            Visit our FAQs section for quick answers about orders and returns.
+          </p>
+
+          <h3>Warehouse Address</h3>
+          <p style={styles.text}>
+            E-Shop Fulfillment Center <br />
+            1250 Market Road <br />
+            Chennai, Tamil Nadu, India
+          </p>
+
+          <h3>Email Us</h3>
+          <p style={styles.text}>support@eshop.com</p>
+
+          <h3>Call Us</h3>
+          <p style={styles.text}>
+            +91 98765 43210 <br />
+            9:00 AM – 6:00 PM IST
+          </p>
+
+          <div style={styles.socials}>
+            <span style={styles.icon}>G</span>
+            <span style={styles.icon}>F</span>
+            <span style={styles.icon}>X</span>
+            <span style={styles.icon}>I</span>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
+/* Styles */
 const styles = {
   page: {
+    backgroundColor: "#f2f2f2",
     minHeight: "100vh",
-    backgroundColor: "#f5f5f6",
+    fontFamily: "Segoe UI, sans-serif",
+  },
+  hero: {
+    height: "320px",
+    backgroundImage:
+      "url('https://images.unsplash.com/photo-1521334884684-d80222895322')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  },
+  overlay: {
+    backgroundColor: "rgba(0,0,0,0.55)",
+    height: "100%",
+    color: "#fff",
     display: "flex",
-    alignItems: "center",
+    flexDirection: "column",
     justifyContent: "center",
+    padding: "40px",
   },
-  card: {
-    width: "420px",
-    backgroundColor: "#ffffff",
-    padding: "30px",
+  heroTitle: {
+    fontSize: "42px",
+    marginBottom: "10px",
+  },
+  heroText: {
+    maxWidth: "600px",
+    fontSize: "16px",
+  },
+  content: {
+    display: "flex",
+    gap: "40px",
+    padding: "50px",
+  },
+  formBox: {
+    flex: 2,
+    backgroundColor: "#fff",
+    padding: "35px",
     borderRadius: "8px",
-    boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
   },
-  title: {
-    marginBottom: "8px",
-    fontSize: "22px",
-    fontWeight: "600",
-    color: "#282c3f",
+  infoBox: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: "35px",
+    borderRadius: "8px",
   },
-  subtitle: {
+  text: {
+    color: "#555",
     fontSize: "14px",
-    color: "#7e818c",
-    marginBottom: "20px",
+    marginBottom: "15px",
   },
   input: {
     width: "100%",
     padding: "12px",
-    marginBottom: "14px",
-    border: "1px solid #d4d5d9",
+    marginBottom: "15px",
     borderRadius: "4px",
-    fontSize: "14px",
-    outline: "none",
+    border: "1px solid #ccc",
   },
   textarea: {
     width: "100%",
+    height: "120px",
     padding: "12px",
-    height: "90px",
-    marginBottom: "20px",
-    border: "1px solid #d4d5d9",
+    marginBottom: "15px",
     borderRadius: "4px",
-    fontSize: "14px",
+    border: "1px solid #ccc",
     resize: "none",
-    outline: "none",
   },
   button: {
-    width: "100%",
-    backgroundColor: "#ff3f6c",
-    color: "#ffffff",
-    padding: "12px",
-    fontSize: "14px",
-    fontWeight: "600",
+    backgroundColor: "#111",
+    color: "#fff",
+    padding: "12px 25px",
     border: "none",
     borderRadius: "4px",
+    cursor: "pointer",
+  },
+  socials: {
+    display: "flex",
+    gap: "12px",
+    marginTop: "20px",
+  },
+  icon: {
+    width: "32px",
+    height: "32px",
+    backgroundColor: "#111",
+    color: "#fff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: "50%",
     cursor: "pointer",
   },
 };
