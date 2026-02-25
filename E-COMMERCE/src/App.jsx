@@ -3,14 +3,16 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Home from './Pages/home.jsx'
+import Productpage from './Pages/product.jsx'
 
 
 function App() {
-    return(
+    return (
         <div>
-        <h1>this is my hone page</h1>
-        <Home />
-</div>
+            <h1>this is my hone page</h1>
+            <Home />
+            <Productpage />
+        </div>
     )
 }
 
