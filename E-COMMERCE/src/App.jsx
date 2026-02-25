@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Home from './Pages/home.jsx'
 import Productpage from './Pages/product.jsx'
+import About from './Pages/about.jsx'
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
             <h1>this is my hone page</h1>
             <Home />
             <Productpage />
+            <About/>
         </div>
     )
 }
