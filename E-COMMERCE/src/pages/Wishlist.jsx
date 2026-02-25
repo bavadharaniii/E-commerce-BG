@@ -17,7 +17,7 @@ const WishlistnPage = () => {
     { id: 11, name: "Sneakers", category: "Men", price: 110, image: "https://images.pexels.com/photos/2918534/pexels-photo-2918534.jpeg" },
     { id: 12, name: "Watch", category: "Men", price: 200, image: "https://images.pexels.com/photos/1334602/pexels-photo-1334602.jpeg" },
     { id: 13, name: "Face serum", category: "Women", price: 450, image: "https://images.pexels.com/photos/32282462/pexels-photo-32282462.jpeg" },
-    { id: 14, name: "Watch", category: "Men", price: 200, image: "https://images.pexels.com/photos/1334602/pexels-photo-1334602.jpeg" },
+    { id: 14, name: "", category: "Men", price: 200, image: "https://images.pexels.com/photos/1334602/pexels-photo-1334602.jpeg" },
     { id: 15, name: "Watch", category: "Men", price: 200, image: "https://images.pexels.com/photos/1334602/pexels-photo-1334602.jpeg" },
   ];
 
