@@ -1,0 +1,22 @@
+/* 🔥 NAVBAR DESIGN */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111;
+  color: white;
+  padding: 15px 30px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #ff4081;
+}
+
+.wishlist-count {
+  font-weight: bold;
+}
