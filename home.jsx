@@ -1,218 +1,343 @@
 import React, { useState, useEffect } from "react";
 
 const Home = () => {
-  // Search + Product modal
   const [search, setSearch] = useState("");
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
-  // Navbar interactive state
   const [nav, setNav] = useState("Home");
   const [navMessage, setNavMessage] = useState("");
+  const [category, setCategory] = useState("All");
+  const [fadeIn, setFadeIn] = useState(true);
 
-  // Products
-  const products = [
-    { id: 1, name: "Wireless Headphones", price: "$99", img: "https://tse1.mm.bing.net/th/id/OIP.yzjZOqxOEIxXhbtfMd191gHaEK?rs=1&pid=ImgDetMain&o=7&rm=3" },
-    { id: 2, name: "Smart Watch", price: "$149", img: "https://cdn.mos.cms.futurecdn.net/ZnfiyKaps4Ck8n8G8JZd9S.jpg" },
-    { id: 3, name: "Gaming Mouse", price: "$45", img: "https://img.freepik.com/premium-photo/gaming-mouse_893571-27038.jpg" },
-    { id: 4, name: "Backpack", price: "$70", img: "https://www.factsfanatics.com/content/images/2024/08/Bseash-50L-Hiking-Backpack.png" },
-    { id: 5, name: "Sunglasses", price: "$60", img: "https://wallpapers.com/images/hd/sunglasses-pictures-qthr00xtaomch4b9.jpg" },
-    {id:6, name:"Smartphone", price:"$50000",img:"https://images.pexels.com/photos/7989741/pexels-photo-7989741.jpeg"},
-  ];
-
-  // Navbar useEffect popup message
+  // Fade animation
   useEffect(() => {
-    if (nav === "Home") setNavMessage("🏠 Welcome to Home Page!");
-    if (nav === "Categories") setNavMessage("📂 Browse Product Categories!");
-    if (nav === "Mall") setNavMessage("🛍️ Welcome to Shopping Mall!");
-    if (nav === "Video") setNavMessage("🎥 Watch Trending Videos!");
-    if (nav === "Orders") setNavMessage("📦 Check Your Orders!");
+    setFadeIn(false);
+    const timer = setTimeout(() => setFadeIn(true), 200);
+    return () => clearTimeout(timer);
+  }, [nav]);
 
-    // Auto hide popup after 2 seconds
+  // Nav popup message
+  useEffect(() => {
+    const messages = {
+      Home: "🏠 Welcome to MyShop!",
+      Products: "🛍 Explore Premium Products!",
+      About: "✨ Learn About MyShop!",
+      Contact: "📞 Let's Connect!"
+    };
+    setNavMessage(messages[nav] || "");
     const timer = setTimeout(() => setNavMessage(""), 2000);
     return () => clearTimeout(timer);
   }, [nav]);
 
-  // Button handlers
-  const handleBuy = (product) => alert(`You clicked Buy Now for "${product.name}"`);
-  const handleWishlist = () => alert("Added to Wishlist ❤️");
-  const handleCart = () => alert("Added to Cart 🛒");
+  const products = [
+  // Electronics
+  { id: 1, name: "Wireless Headphones", price: "$99", category: "Electronics", img: "https://images.pexels.com/photos/577769/pexels-photo-577769.jpeg" },
+  { id: 2, name: "Smart Watch", price: "$149", category: "Electronics", img: "https://images.pexels.com/photos/30385640/pexels-photo-30385640.jpeg" },
+  { id: 6, name: "Bluetooth Speaker", price: "$79", category: "Electronics", img: "https://images.pexels.com/photos/63703/pexels-photo-63703.jpeg" },
 
-  const handleProductClick = (product) => setSelectedProduct(product);
-  const closeModal = () => setSelectedProduct(null);
+  // Cosmetics
+  { id: 3, name: "Lipstick Kit", price: "$30", category: "Cosmetics", img: "https://images.pexels.com/photos/2547462/pexels-photo-2547462.jpeg" },
+  { id: 7, name: "Makeup Brush Set", price: "$25", category: "Cosmetics", img: "https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg" },
+  { id: 8, name: "Foundation Cream", price: "$40", category: "Cosmetics", img: "https://images.pexels.com/photos/6621467/pexels-photo-6621467.jpeg" },
+
+  // Women Dresses
+  { id: 4, name: "Women Dress", price: "$120", category: "Women Dresses", img: "https://images.pexels.com/photos/1382730/pexels-photo-1382730.jpeg" },
+  { id: 9, name: "Party Gown", price: "$180", category: "Women Dresses", img: "https://images.pexels.com/photos/291762/pexels-photo-291762.jpeg" },
+  { id: 10, name: "Casual Kurti", price: "$60", category: "Women Dresses", img: "https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg" },
+
+  // Men Dresses
+  { id: 5, name: "Men Shirt", price: "$80", category: "Men Dresses", img: "https://images.pexels.com/photos/17901262/pexels-photo-17901262.jpeg" },
+  { id: 11, name: "Formal Suit", price: "$200", category: "Men Dresses", img: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg" },
+  { id: 12, name: "Casual T-Shirt", price: "$35", category: "Men Dresses", img: "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg" },
+];
+
+  const filteredProducts = products
+    .filter(p => category === "All" || p.category === category)
+    .filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div style={styles.container}>
-
+      
       {/* HEADER */}
       <header style={styles.header}>
-        <div style={styles.logo}>✨ MyShop</div>
-
-        <div style={styles.rightHeader}>
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={styles.searchBox}
-          />
-          <button style={styles.headerButton} onClick={handleWishlist}>💖 </button>
-          <button style={styles.headerButton} onClick={handleCart}>🛒 </button>
+        <div style={styles.logo} onClick={() => setNav("Home")}>
+          ✨ MyShop
         </div>
+
+        <div style={styles.topNav}>
+          {["Home", "Products", "About", "Contact"].map((item) => (
+            <button
+              key={item}
+              onClick={() => setNav(item)}
+              style={{
+                ...styles.topNavBtn,
+                background: nav === item ? "linear-gradient(45deg,#00f2fe,#4facfe)" : "transparent",
+                color: "#fff"
+              }}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+
+        <input
+          type="text"
+          placeholder="Search..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={styles.searchBox}
+        />
       </header>
 
       {/* MAIN */}
-      <main style={styles.main}>
-        <h1 style={styles.heroTitle}>Discover Amazing Products</h1>
-        <p style={styles.heroSubtitle}>Curated just for you</p>
+      <main
+        style={{
+          ...styles.main,
+          opacity: fadeIn ? 1 : 0,
+          transition: "0.5s"
+        }}
+      >
 
-        <div style={styles.productsContainer}>
-          {products
-            .filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
-            .map((product) => (
-              <div key={product.id} style={styles.productCard} onClick={() => handleProductClick(product)}>
-                <img src={product.img} alt={product.name} style={styles.productImg} />
-                <h3 style={styles.productName}>{product.name}</h3>
-                <p style={styles.productPrice}>{product.price}</p>
+        {/* HOME PAGE */}
+        {nav === "Home" && (
+          <>
+            <h1 style={styles.title}>Welcome to MyShop ✨</h1>
+            <p style={styles.subtitle}>Explore Our Trending Products</p>
 
-                <button
-                  style={styles.buyButton}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleBuy(product);
-                  }}
-                >
-                  Buy now
-                </button>
+            <div style={styles.productsContainer}>
+              {products.map((product) => (
+                <div key={product.id} style={styles.productCard}>
+                  <img
+                    src={product.img}
+                    alt={product.name}
+                    style={styles.productImg}
+                  />
+                  <h4>{product.name}</h4>
+                  <p>{product.price}</p>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* PRODUCTS PAGE */}
+        {nav === "Products" && (
+          <div style={styles.productsContainer}>
+            {filteredProducts.map((product) => (
+              <div key={product.id} style={styles.productCard}>
+                <img
+                  src={product.img}
+                  alt={product.name}
+                  style={styles.productImg}
+                />
+                <h4>{product.name}</h4>
+                <p>{product.price}</p>
+                <button style={styles.buyButton}>Buy Now</button>
               </div>
             ))}
-        </div>
+          </div>
+        )}
+
+        {/* ABOUT PAGE */}
+        {nav === "About" && (
+          <div style={styles.cardGlass}>
+            <h2>About MyShop</h2>
+            <p>
+              MyShop is a modern eCommerce platform that provides
+              high-quality Electronics, Cosmetics, and Fashion products.
+            </p>
+            <p>
+              We focus on customer satisfaction, fast delivery,
+              premium UI experience and affordable pricing.
+            </p>
+            <div style={styles.stats}>
+              <div>🛍 100+ Products</div>
+              <div>🚚 Fast Delivery</div>
+              <div>⭐ 4.9 Customer Rating</div>
+            </div>
+          </div>
+        )}
+
+        {/* CONTACT PAGE */}
+        {nav === "Contact" && (
+          <div style={styles.cardGlass}>
+            <h2>Contact Us</h2>
+            <input placeholder="Your Name" style={styles.inputBox} />
+            <input placeholder="Your Email" style={styles.inputBox} />
+            <textarea placeholder="Your Message" style={styles.textArea} />
+            <button style={styles.buyButton}>Send Message</button>
+          </div>
+        )}
+
       </main>
 
-      {/* PRODUCT MODAL */}
-      {selectedProduct && (
-        <div style={styles.modalOverlay} onClick={closeModal}>
-          <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <h2>{selectedProduct.name}</h2>
-            <img src={selectedProduct.img} alt="" style={{ width: "100%", borderRadius: "12px" }} />
-            <p style={{ fontSize: "18px" }}>Price: {selectedProduct.price}</p>
-            <button style={styles.buyButton} onClick={() => handleCart(selectedProduct)}>Add to cart</button>
-            <button style={{ ...styles.buyButton, background: "red", marginLeft: "10px" }} onClick={closeModal}>Close</button>
-          </div>
-        </div>
-      )}
-
-      {/* NAVBAR POPUP MESSAGE */}
       {navMessage && <div style={styles.navPopup}>{navMessage}</div>}
 
-      {/* FOOTER NAVBAR */}
+      {/* FOOTER CATEGORY FILTER */}
       <footer style={styles.footer}>
         <nav style={styles.footerNav}>
-          <button style={styles.navButton} onClick={() => setNav("Home")}>🏠 Home</button>
-          <button style={styles.navButton} onClick={() => setNav("Categories")}>📂 Categories</button>
-          <button style={styles.navButton} onClick={() => setNav("Mall")}>🛍️ Mall</button>
-          <button style={styles.navButton} onClick={() => setNav("Video")}>🎥 Video Finds</button>
-          <button style={styles.navButton} onClick={() => setNav("Orders")}>📦 My Orders</button>
+          {["All","Cosmetics","Women Dresses","Men Dresses","Electronics"].map(cat => (
+            <button
+              key={cat}
+              style={styles.navButton}
+              onClick={() => {
+                setCategory(cat);
+                setNav("Products");
+              }}
+            >
+              {cat}
+            </button>
+          ))}
         </nav>
       </footer>
+
     </div>
   );
 };
 
-// STYLES
 const styles = {
   container: {
-    fontFamily: "Arial",
-    height: "100vh",
+    fontFamily: "'Poppins', sans-serif",
+    minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
-    background: "linear-gradient(135deg,#f5f7fa,#c3cfe2)",
+    background: "linear-gradient(135deg,#1fd1f9,#b621fe)",
   },
 
-  /* HEADER */
   header: {
     display: "flex",
     justifyContent: "space-between",
-    padding: "8px 15px", // smaller
-    background: "#fff",
-    boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
-    position: "sticky",
-    top: 0,
-    zIndex: 10,
+    alignItems: "center",
+    padding: "12px 25px",
+    background: "rgba(255,255,255,0.15)",
+    backdropFilter: "blur(15px)",
   },
-  logo: { fontSize: "20px", fontWeight: "bold" },
-  rightHeader: { display: "flex", gap: "6px" },
-  searchBox: { padding: "5px 10px", borderRadius: "15px", border: "1px solid #ccc", fontSize: "12px" },
-  headerButton: { padding: "5px 10px", borderRadius: "15px", border: "none", background: "#007bff", color: "#fff", fontSize: "12px" },
 
-  /* MAIN */
-main: {
-  flex: 1,
-  padding: "10px",
-  textAlign: "center",
-},
+  logo: {
+    fontWeight: "bold",
+    fontSize: "24px",
+    color: "#fff",
+    cursor: "pointer"
+  },
 
-  /* PRODUCTS GRID */
+  topNav: { display: "flex", gap: "15px" },
+
+  topNavBtn: {
+    border: "none",
+    padding: "8px 18px",
+    borderRadius: "30px",
+    cursor: "pointer",
+    fontWeight: "500",
+  },
+
+  searchBox: {
+    padding: "7px 15px",
+    borderRadius: "25px",
+    border: "none",
+    outline: "none",
+  },
+
+  main: {
+    flex: 1,
+    padding: "30px",
+    textAlign: "center",
+    color: "#fff",
+    overflowY: "auto"
+  },
+
+  title: { fontSize: "34px", fontWeight: "700" },
+
+  subtitle: { fontSize: "18px", marginBottom: "20px" },
+
   productsContainer: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", // smaller cards
-    gap: "10px",
-  },
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fill, minmax(180px, 180px))",
+  justifyContent: "center",
+  gap: "15px",
+  marginTop: "20px"
+},
 
   productCard: {
-    background: "#fff",
-    padding: "8px",
-    borderRadius: "10px",
-    boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-    cursor: "pointer",
-    transition: "0.2s",
+    background: "rgba(255,255,255,0.2)",
+    backdropFilter: "blur(10px)",
+    padding: "15px",
+    borderRadius: "15px",
+    color: "#fff"
   },
 
-  productImg: { width: "100%", borderRadius: "8px", height: "120px", objectFit: "cover" },
-  productName: { fontSize: "14px", margin: "5px 0" },
-  productPrice: { fontSize: "13px", color: "#007bff" },
+  productImg: {
+  width: "100%",
+  aspectRatio: "4 / 3",   // uniform ratio
+  objectFit: "cover",
+  borderRadius: "20px",
+  display: "block"
+},
 
   buyButton: {
-    padding: "4px 10px",
-    borderRadius: "12px",
+    marginTop: "8px",
+    padding: "6px 14px",
     border: "none",
-    background: "#28a745",
+    borderRadius: "20px",
+    background: "linear-gradient(45deg,#00f2fe,#4facfe)",
     color: "#fff",
-    fontSize: "12px",
     cursor: "pointer",
   },
 
-  /* FOOTER NAVBAR */
+  cardGlass: {
+    background: "rgba(255,255,255,0.2)",
+    padding: "25px",
+    borderRadius: "20px",
+  },
+
+  stats: {
+    display: "flex",
+    justifyContent: "space-around",
+    marginTop: "15px",
+    fontWeight: "bold"
+  },
+
+  inputBox: {
+    padding: "10px",
+    borderRadius: "10px",
+    border: "none",
+    marginBottom: "10px",
+    width: "100%"
+  },
+
+  textArea: {
+    padding: "10px",
+    borderRadius: "10px",
+    border: "none",
+    height: "80px",
+    marginBottom: "10px",
+    width: "100%"
+  },
+
   footer: {
-  background: "#fff",
-  padding: "8px 0",
-  width: "100%",
-  boxShadow: "0 -1px 4px rgba(0,0,0,0.1)",
-  marginTop: "auto",   // 👈 pushes footer to bottom inside container
-},
-  footerNav: { display: "flex", justifyContent: "space-around" },
-  navButton: { background: "none", border: "none", fontSize: "12px", cursor: "pointer" },
+    background: "rgba(255,255,255,0.15)",
+    padding: "12px"
+  },
 
-  /* MODAL */
-  modalOverlay: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", justifyContent: "center", alignItems: "center" },
-  modalContent: { background: "#fff", padding: "12px", borderRadius: "10px", width: "280px" },
+  footerNav: {
+    display: "flex",
+    justifyContent: "space-around"
+  },
 
-  /* NAV POPUP */
+  navButton: {
+    border: "none",
+    background: "transparent",
+    cursor: "pointer",
+    color: "#fff",
+    fontWeight: "500"
+  },
+
   navPopup: {
     position: "fixed",
-    top: "60px",
-    right: "10px",
-    background: "black",
-    color: "white",
-    padding: "8px 12px",
-    borderRadius: "15px",
-    fontSize: "12px",
-    boxShadow: "0 3px 10px rgba(0,0,0,0.3)",
-  },
+    top: "80px",
+    right: "25px",
+    background: "linear-gradient(45deg,#00f2fe,#4facfe)",
+    color: "#fff",
+    padding: "8px 18px",
+    borderRadius: "25px",
+  }
 };
 
-
-export default Home;  
-
-
-
-
+export default Home;
