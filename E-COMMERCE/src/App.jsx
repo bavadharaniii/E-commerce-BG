@@ -9,7 +9,7 @@ import Productpage from './Pages/product.jsx'
 function App() {
     return (
         <div>
-            <h1>this is my hone page</h1>
+            <h1>This is my home page</h1>
             <Home />
             <Productpage />
         </div>
