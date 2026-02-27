@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const ProductPage = () => {
     const products = [
@@ -12,137 +12,40 @@ const ProductPage = () => {
         { id: 8, name: "Heels", category: "Women", price: 90, image: "https://images.pexels.com/photos/3782786/pexels-photo-3782786.jpeg" },
         { id: 9, name: "Handbag", category: "Women", price: 150, image: "https://images.pexels.com/photos/9327162/pexels-photo-9327162.jpeg" },
         { id: 10, name: "Men's Jacket", category: "Men", price: 120, image: "https://images.pexels.com/photos/16069733/pexels-photo-16069733.jpeg" },
-
-        { id: 12, name: "Smart Watch", category: "Men", price: 1200, image: "https://images.pexels.com/photos/1334602/pexels-photo-1334602.jpeg" },
-        { id: 13, name: "Watch", category: "Men", price: 800, image: "https://images.pexels.com/photos/364822/rolex-watch-time-luxury-364822.jpeg" },
-        { id: 14, name: "Bracelet", category: "Men", price: 160, image: "https://images.pexels.com/photos/12194302/pexels-photo-12194302.jpeg" },
-        { id: 15, name: "Shirt", category: "Men", price: 200, image: "https://images.pexels.com/photos/9558723/pexels-photo-9558723.jpeg" },
-        { id: 16, name: "Formal pants combo", category: "Men", price: 1900, image: "https://images.pexels.com/photos/11176394/pexels-photo-11176394.jpeg" },
-        { id: 17, name: "Formal Shoe", category: "Men", price: 900, image: "https://images.pexels.com/photos/32644171/pexels-photo-32644171.jpeg" },
-        { id: 18, name: "Bag", category: "Men", price: 200, image: "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg" },
-        { id: 19, name: "Luggage", category: "Men", price: 600, image: "https://images.pexels.com/photos/842960/pexels-photo-842960.jpeg" },
-        { id: 20, name: "Ring", category: "Men", price: 200, image: "https://images.pexels.com/photos/1352783/pexels-photo-1352783.jpeg" },
     ];
 
     const categories = ["All", "Cosmetics", "Gadgets", "Women", "Men"];
-    const [selectedCategory, setSelectedCategory] = useState("All");
-    const [message, setMessage] = useState("");
-
-    // NEW STATES
-    const [selectedProduct, setSelectedProduct] = useState(null);
-    const [quantity, setQuantity] = useState(1);
-
-    const filteredProducts =
-        selectedCategory === "All"
-            ? products
-            : products.filter((p) => p.category === selectedCategory);
-
-    const addToCart = (product) => {
-        setMessage(`${product.name} added to cart ✅`);
-        setTimeout(() => setMessage(""), 2000);
-    };
-
-    // BUY NOW FUNCTION
-    const handleBuyNow = (product) => {
-        setSelectedProduct(product);
-        setQuantity(1);
-    };
-
-    const confirmPurchase = () => {
-        alert(
-            `Purchase Successful!\n\nProduct: ${selectedProduct.name}\nQuantity: ${quantity}\nTotal: $${selectedProduct.price * quantity}`
-        );
-        setSelectedProduct(null);
-    };
 
     return (
         <div style={styles.page}>
-            <h1 style={{ textAlign: "center" }}> MyShop</h1>
+            <h1 style={{ textAlign: "center" }}>MyShop</h1>
 
-            {/* Category Buttons */}
+            {/* Categories (Static) */}
             <div style={styles.categoryContainer}>
                 {categories.map((cat) => (
-                    <button
-                        key={cat}
-                        style={{
-                            ...styles.categoryButton,
-                            backgroundColor:
-                                selectedCategory === cat ? "#007bff" : "#ddd",
-                            color: selectedCategory === cat ? "#fff" : "#000",
-                        }}
-                        onClick={() => setSelectedCategory(cat)}
-                    >
+                    <div key={cat} style={{ ...styles.categoryButton, backgroundColor: "#ddd", color: "#000" }}>
                         {cat}
-                    </button>
+                    </div>
                 ))}
             </div>
 
-            {message && <div style={styles.message}>{message}</div>}
-
             {/* Products Grid */}
             <div style={styles.grid}>
-                {filteredProducts.map((product) => (
+                {products.map((product) => (
                     <div key={product.id} style={styles.card}>
                         <img src={product.image} alt={product.name} style={styles.image} />
                         <h3>{product.name}</h3>
                         <p><strong>Category:</strong> {product.category}</p>
                         <div style={styles.price}>${product.price}</div>
 
-                        <div style={{ display: "grid", gap: "10px", marginTop: "10px" }}>
-                            <button
-                                style={styles.cartButton}
-                                onClick={() => addToCart(product)}
-                            >
-                                Add to Cart
-                            </button>
-
-                            <button
-                                style={styles.buyButton}
-                                onClick={() => handleBuyNow(product)}
-                            >
-                                Buy Now
-                            </button>
+                        {/* Buttons removed or static */}
+                        <div style={{ marginTop: "10px" }}>
+                            <button style={{ ...styles.cartButton, cursor: "default" }}>Add to Cart</button>
+                            <button style={{ ...styles.buyButton, cursor: "default", marginLeft: "5px" }}>Buy Now</button>
                         </div>
                     </div>
                 ))}
             </div>
-
-            {/* CHECKOUT MODAL */}
-            {selectedProduct && (
-                <div style={styles.modalOverlay}>
-                    <div style={styles.modal}>
-                        <h2>Checkout</h2>
-                        <p><strong>{selectedProduct.name}</strong></p>
-                        <p>Price: ${selectedProduct.price}</p>
-
-                        <label>Quantity:</label>
-                        <input
-                            type="number"
-                            min="1"
-                            value={quantity}
-                            onChange={(e) => setQuantity(Number(e.target.value))}
-                            style={{ width: "60px", marginLeft: "10px" }}
-                        />
-
-                        <p style={{ marginTop: "10px" }}>
-                            <strong>Total: ${selectedProduct.price * quantity}</strong>
-                        </p>
-
-                        <div style={{ marginTop: "15px", display: "flex", gap: "10px" }}>
-                            <button style={styles.confirmButton} onClick={confirmPurchase}>
-                                Confirm Buy
-                            </button>
-
-                            <button
-                                style={styles.cancelButton}
-                                onClick={() => setSelectedProduct(null)}
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
@@ -164,9 +67,8 @@ const styles = {
     categoryButton: {
         padding: "10px 20px",
         borderRadius: "20px",
-        border: "none",
-        cursor: "pointer",
         fontWeight: "bold",
+        textAlign: "center",
     },
     grid: {
         display: "grid",
@@ -193,64 +95,18 @@ const styles = {
         margin: "10px 0",
     },
     cartButton: {
-        flex: 1,
         padding: "8px",
         border: "none",
         borderRadius: "6px",
         backgroundColor: "#007bff",
         color: "white",
-        cursor: "pointer",
     },
     buyButton: {
-        flex: 1,
         padding: "8px",
         border: "none",
         borderRadius: "6px",
         backgroundColor: "#ff5722",
         color: "white",
-        cursor: "pointer",
-    },
-    message: {
-        textAlign: "center",
-        marginBottom: "15px",
-        color: "green",
-        fontWeight: "bold",
-    },
-    modalOverlay: {
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0,0,0,0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    modal: {
-        background: "white",
-        padding: "25px",
-        borderRadius: "12px",
-        width: "300px",
-        textAlign: "center",
-    },
-    confirmButton: {
-        flex: 1,
-        padding: "8px",
-        border: "none",
-        borderRadius: "6px",
-        backgroundColor: "green",
-        color: "white",
-        cursor: "pointer",
-    },
-    cancelButton: {
-        flex: 1,
-        padding: "8px",
-        border: "none",
-        borderRadius: "6px",
-        backgroundColor: "gray",
-        color: "white",
-        cursor: "pointer",
     },
 };
 
