@@ -5,6 +5,8 @@ import './App.css'
 import Home from './Pages/home.jsx'
 import Productpage from './Pages/product.jsx'
 import About from './Pages/about.jsx'
+import WishlistnPage from './pages/WishlistnPage.jsx'
+import Contact from './pages/contact.jsx'
 
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
             <Home />
             <Productpage />
             <About/>
+            <WishlistnPage />
+            <Contact />
         </div>
     )
 }
